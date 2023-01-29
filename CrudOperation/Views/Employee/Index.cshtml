@@ -1,0 +1,111 @@
+﻿@model IEnumerable<CrudOperation.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employee List";
+}
+
+<div id="Placeholderhere"></div>
+
+<h3>Employee List</h3>
+
+<p>
+    <button type="button" class="btn btn-outline-primary btn-sm " data-toggle="ajax-modal" data-target="#addEmployee" data-url="@Url.Action("Create")">
+        <i class="bi bi-pencil-square">
+
+    </i> Add New</button>
+</p>
+<table id="myTable" class="table table-striped-columns">
+    <thead class="table-success">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JoinDate)
+            </th>
+            <th colspan="4" style="text-align:center">
+                Education
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    <img class="img-thumbnail" width="50" src="~/images/@Html.DisplayFor(modelItem => item.Picture)" alt="Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JoinDate)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Ssc)
+                    @Html.DisplayFor(modelItem => item.Ssc)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Hsc)
+                    @Html.DisplayFor(modelItem => item.Hsc)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Bsc)
+                    @Html.DisplayFor(modelItem => item.Bsc)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Msc)
+                    @Html.DisplayFor(modelItem => item.Msc)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.StateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.CityName)
+                </td>
+                <td>
+                    <button type="button" data-toggle="ajax-modal" 
+                    data-target="#addEmployee" data-url="@Url.Action($"Edit/{item.Id}")"><i class="bi bi-pencil-square"></i></button> |
+                    <button type="button" data-toggle="ajax-modal" 
+                    data-target="#addEmployee" data-url="@Url.Action($"Details/{item.Id}")"><i class="bi bi-eye-fill"></i></button> |
+                    <button type="button" data-toggle="ajax-modal" 
+                    data-target="#addEmployee" data-url="@Url.Action($"Delete/{item.Id}")"><i class="bi bi-trash-fill"></i></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
