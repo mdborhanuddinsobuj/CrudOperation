@@ -68,28 +68,36 @@ namespace CrudOperation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee, IFormFile pictureFile)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (pictureFile != null && pictureFile.Length > 0)
+                if (ModelState.IsValid)
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images",
-                     pictureFile.FileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    if (pictureFile != null && pictureFile.Length > 0)
                     {
-                        pictureFile.CopyTo(stream);
-                    }
-                    employee.Picture = $"{pictureFile.FileName}";
-                }
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images",
+                         pictureFile.FileName);
 
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            pictureFile.CopyTo(stream);
+                        }
+                        employee.Picture = $"{pictureFile.FileName}";
+                    }
+
+                    _context.Add(employee);
+                    await _context.SaveChangesAsync();
+                    
+                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", employee.CityId);
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "CountryName", employee.CountryId);
-            ViewData["StateId"] = new SelectList(_context.States, "Id", "StateName", employee.StateId);
-            return View(employee);
+            catch
+            {
+                ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", employee.CityId);
+                ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "CountryName", employee.CountryId);
+                ViewData["StateId"] = new SelectList(_context.States, "Id", "StateName", employee.StateId);
+                return View(employee);
+            }
+            
         }
 
         // GET: Employee/Edit/5
